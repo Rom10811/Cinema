@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Seance index{% endblock %}
+
+{% block body %}
+    <div class="col-md-8" style="margin: auto">
+    <h1>Seance index</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Heure</th>
+                <th>Film</th>
+                <th>Salle</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for seance in seances %}
+                <tr>
+                    <td>{{ seance.id }}</td>
+                    <td>{{ seance.heure ? seance.heure|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{seance.idFilm.Nom }}</td>
+                    <td>{{ seance.idSalle.id }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="{{ path('seance_edit', {'id': seance.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('seance_new') }}">Create new</a>
+    </div>
+
+{% endblock %}
