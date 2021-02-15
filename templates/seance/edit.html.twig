@@ -5,9 +5,7 @@
 {% block body %}
     <h1>Edit Seance</h1>
 
-    {{ include('seance/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('seance/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
 
-    <a href="{{ path('seance_index') }}">back to list</a>
-
-    {{ include('seance/_delete_form.html.twig') }}
+    <a href="{{ path('seance_index') }}">Retour a la liste des séances</a>
 {% endblock %}

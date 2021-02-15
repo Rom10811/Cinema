@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Film;
 use App\Form\FilmType;
 use App\Repository\FilmRepository;
+use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -91,4 +92,18 @@ class FilmController extends AbstractController
 
         return $this->redirectToRoute('film_index');
     }
+
+    /**
+     * @param Request $request
+     * @param Film $film
+     * @return Response
+     * @Route("/{id}/seances", name="film_seance")
+     */
+    public function reserv(SeanceRepository $seanceRepository, $id): Response
+    {
+     return $this->render('film/seances.html.twig',[
+         'films' => $seanceRepository->findBy(
+            ['idFilm' => $id]
+         )
+    ]);}
 }

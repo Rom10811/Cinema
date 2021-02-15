@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+    {{ dump(films) }}
+    {% for film in films %}
+        <div>
+            {{ film.idFilm.Nom }}
+            {{ film.idFilm.Description }}
+            {{ film.idFilm.DateSortie|date('Y-m-d') }}
+            <img src="{{ film.idFilm.image }}">
+        </div>
+        <div>
+            {{ film.idSalle.Numero }}
+            {{ film.heure|date('Y-m-d') }}
+            {{ film.idSalle.PlacesRestantes }}
+        </div>
+    {% endfor %}
+{% endblock %}
