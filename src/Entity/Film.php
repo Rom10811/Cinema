@@ -39,6 +39,11 @@ class Film
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Video;
+
     public function __construct()
     {
         $this->seances = new ArrayCollection();
@@ -123,6 +128,18 @@ class Film
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->Video;
+    }
+
+    public function setVideo(?string $Video): self
+    {
+        $this->Video = $Video;
 
         return $this;
     }

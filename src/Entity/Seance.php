@@ -38,6 +38,16 @@ class Seance
      */
     private $idSalle;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $PlacesRestantes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $PlacesReserves;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +85,30 @@ class Seance
     public function setIdSalle(?Salle $idSalle): self
     {
         $this->idSalle = $idSalle;
+
+        return $this;
+    }
+
+    public function getPlacesRestantes(): ?int
+    {
+        return $this->PlacesRestantes;
+    }
+
+    public function setPlacesRestantes(int $PlacesRestantes): self
+    {
+        $this->PlacesRestantes = $PlacesRestantes;
+
+        return $this;
+    }
+
+    public function getPlacesReserves(): ?int
+    {
+        return $this->PlacesReserves;
+    }
+
+    public function setPlacesReserves(?int $PlacesReserves): self
+    {
+        $this->PlacesReserves = $PlacesReserves;
 
         return $this;
     }

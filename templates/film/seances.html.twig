@@ -3,18 +3,21 @@
 {% block title %}Hello!{% endblock %}
 
 {% block body %}
-    {{ dump(films) }}
     {% for film in films %}
-        <div>
-            {{ film.idFilm.Nom }}
-            {{ film.idFilm.Description }}
-            {{ film.idFilm.DateSortie|date('Y-m-d') }}
-            <img src="{{ film.idFilm.image }}">
-        </div>
-        <div>
-            {{ film.idSalle.Numero }}
-            {{ film.heure|date('Y-m-d') }}
-            {{ film.idSalle.PlacesRestantes }}
-        </div>
+            <div class="card" style="display: inline-flex; min-width: 400px; min-height: 400px; max-width: 400px;  margin-left: 60px; margin-top: 40px; padding:20px; text-align: center">
+                <img class="card-img-top" src="{% if film.idFilm.image is empty %} https://via.placeholder.com/300 {% else %} {{film.idFilm.image }}{% endif %}" />
+                <div class="card-block">
+                    <a style="text-decoration: none; color: black" class="card-title" href="{{ path('film_description',{'nom': film.idFilm.Nom}) }}">
+                        {{ film.idFilm.Nom }}
+                    </a>
+                    <p>Numero de salle: {{ film.idSalle.Numero }}</p>
+                    <p>Heure de la séance: {{ film.heure|date("m/d/Y H:i:s", "Europe/Paris") }}</p>
+                    <p>Places restantes: {{ film.PlacesRestantes }}</p>
+                    <p>Places Réservés: {{ film.PlacesReserves }}</p>
+                    <p>
+                        <a class="btn btn-primary" href="#">Reserver</a>
+                    </p>
+                </div>
+            </div>
     {% endfor %}
 {% endblock %}

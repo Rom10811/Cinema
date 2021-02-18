@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Film index{% endblock %}
+
+{% block body %}
+    {% for description in descriptions %}
+        {{ dump(description) }}
+        {{ description.Nom }}
+        <p>{{ description.Description }}</p>
+        <p>{{ description.DateSortie|date("m/d/Y", "Europe/Paris") }}</p>
+        <img src="{{ description.image}}">
+        <iframe width="1920" height="1080" src="https://www.youtube.com/embed/{{ description.Video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    {% endfor %}
+{% endblock %}

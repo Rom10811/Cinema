@@ -29,16 +29,6 @@ class Salle
      */
     private $TotalPlaces;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $PlacesRestantes;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $PlaceReserv;
-
 
     public function __construct()
     {
@@ -70,30 +60,6 @@ class Salle
     public function setTotalPlaces(int $TotalPlaces): self
     {
         $this->TotalPlaces = $TotalPlaces;
-
-        return $this;
-    }
-
-    public function getPlacesRestantes(): ?int
-    {
-        return $this->PlacesRestantes;
-    }
-
-    public function setPlacesRestantes(?int $PlacesRestantes): self
-    {
-        $this->PlacesRestantes = $PlacesRestantes;
-
-        return $this;
-    }
-
-    public function getPlaceReserv(): ?int
-    {
-        return $this->PlaceReserv;
-    }
-
-    public function setPlaceReserv(?int $PlaceReserv): self
-    {
-        $this->PlaceReserv = $PlaceReserv;
 
         return $this;
     }

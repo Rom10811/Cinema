@@ -103,7 +103,23 @@ class FilmController extends AbstractController
     {
      return $this->render('film/seances.html.twig',[
          'films' => $seanceRepository->findBy(
-            ['idFilm' => $id]
+            ['idFilm' => $id],
+            ['heure' => 'ASC']
          )
     ]);}
+
+    /**
+     * @param FilmRepository $filmRepository
+     * @param $nom
+     * @return Response
+     * @Route("/{nom}/description", name="film_description")
+     */
+    public function description(FilmRepository $filmRepository, $nom): Response
+    {
+        return $this->render('film/description.html.twig',[
+            'descriptions' => $filmRepository->findBy(
+                ['Nom' => $nom]
+            )
+        ]);
+    }
 }
