@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Seance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +21,30 @@ class SeanceRepository extends ServiceEntityRepository
         parent::__construct($registry, Seance::class);
     }
 
-    // /**
-    //  * @return Seance[] Returns an array of Seance objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function reservation($idseance, $nbr)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+        $query = $this->getEntityManager()->createQueryBuilder('s');
+        $query
+            ->update()
+            ->from('\App\Entity\Seance', 's')
+            ->set('s.PlacesReserves', 's.PlacesReserves + :nbr')
+            ->where('s.id=:idseance')
+            ->setParameters(new ArrayCollection(array(
+                new Parameter('idseance', $idseance),
+                new Parameter('nbr', $nbr)
+            )))
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Seance
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->execute();
+        $query2 = $this->getEntityManager()->createQueryBuilder('s2');
+        $query2->update()
+            ->from('\App\Entity\Seance', 's')
+            ->set('s.PlacesRestantes', 's.PlacesRestantes - :nbr')
+            ->where('s.id=:idseance')
+            ->setParameters(new ArrayCollection(array(
+                new Parameter('idseance', $idseance),
+                new Parameter('nbr', $nbr)
+            )))
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->execute();
     }
-    */
 }

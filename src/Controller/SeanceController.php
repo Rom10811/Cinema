@@ -91,4 +91,14 @@ class SeanceController extends AbstractController
 
         return $this->redirectToRoute('seance_index');
     }
+
+    /**
+     * @param SeanceRepository $seanceRepository
+     * @Route ("/film/{idSeance}/reserv" , name="seance_reserv")
+     */
+    public function reserv(SeanceRepository $seanceRepository, $idSeance)
+    {
+        $seanceRepository->reservation($idSeance, 4);
+        return $this->redirectToRoute('accueil');
+    }
 }
