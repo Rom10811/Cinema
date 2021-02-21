@@ -17,7 +17,9 @@ class SeanceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('heure', DateTimeType::class)
+            ->add('heure',DateTimeType::class, array(
+                'input' => 'datetime_immutable'
+            ))
             ->add('PlacesRestantes', IntegerType::class)
             ->add('PlacesReserves', IntegerType::class)
             ->add('idFilm', EntityType::class,[

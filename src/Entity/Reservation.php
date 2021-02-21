@@ -34,6 +34,16 @@ class Reservation
      */
     private $NbrPlaces;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Etat;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $DateCreation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,5 +83,35 @@ class Reservation
         $this->NbrPlaces = $NbrPlaces;
 
         return $this;
+    }
+
+    public function getEtat(): ?int
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(int $Etat): self
+    {
+        $this->Etat = $Etat;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->DateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $DateCreation): self
+    {
+        $this->DateCreation = $DateCreation;
+
+        return $this;
+    }
+
+    public function __construct()
+    {
+        $this->Etat = 1;
+        $this->DateCreation = new \DateTime();
     }
 }

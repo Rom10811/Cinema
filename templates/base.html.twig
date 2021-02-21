@@ -17,6 +17,10 @@
                     {% if is_granted('ROLE_MODERATEUR') %}
                         <a class="navbar-brand" href="{{ path('salle_new') }}">Ajouter une salle</a>
                         <a class="navbar-brand" href="{{ path('film_new') }}">Ajouter un film</a>
+                        <a class="navbar-brand" href="{{ path('seance_new') }}">Ajouter une seance</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_MEMBRE') %}
+                        <a class="navbar-brand" href="#">Consulter mes réservation</a>
                     {% endif %}
                 </div>
                 <div class="col-md-2" style="display: inline-block; text-align: right">

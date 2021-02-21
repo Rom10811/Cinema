@@ -9,12 +9,12 @@
                     <a style="text-decoration: none; color: black" class="card-title" href="{{ path('film_description',{'nom': film.idFilm.Nom}) }}">
                         {{ film.idFilm.Nom }}
                     </a>
-                    <p>Date de la séance:</p><p> {{ film.heure|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à k:mm:ss")  }}</p>
+                    <p>Date de la séance:</p><p> {{ film.heure|date("d-m-Y à h:m:s")}}</p>
                     <p>Places restantes: {{ film.PlacesRestantes }}</p>
                     <p>Places reservés: {{ film.PlacesReserves }}</p>
                     <form id="{{ film.id }}" name="reservation" method="post">
                         <div>
-                            <label for="reservation_NbrPlaces{{ film.id }}" class="required">Nbr places</label>
+                            <label for="reservation_NbrPlaces{{ film.id }}" class="required">Nombres de place(s)</label>
                             <input type="number" max="{{ film.PlacesRestantes}}" min="0" id="reservation_NbrPlaces{{ film.id }}" name="reservation[NbrPlaces]" required="required" dir="ltr">
                         </div>
                         <div style="display: none">
@@ -28,7 +28,7 @@
                         {% else %}
                             <button type="submit" class="btn btn-primary">Reserver</button>
                         {% endif%}
-                        <input type="hidden" id="reservation__token" name="reservation[_token]" value="CQVVckyCV1TD4JmW6Sg8Qnkct4Hep-0CM7keq2zUDt4">
+{#                        <input type="hidden" id="reservation__token" name="reservation[_token]" value="CQVVckyCV1TD4JmW6Sg8Qnkct4Hep-0CM7keq2zUDt4">#}
                     </form>
                 </div>
             </div>

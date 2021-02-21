@@ -18,6 +18,24 @@ use Symfony\Component\Security\Core\Security;
 class ReservationController extends AbstractController
 {
     /**
+     * @Route("/consult")
+     * @param ReservationRepository $reservationRepository
+     * @return Response
+     */
+    public function consult(ReservationRepository $reservationRepository, Security $security): Response
+    {
+        $date = new \DateTime();
+        $user = new User();
+        $user = $security->getUser();
+        return $this->render('reservation/consult.html.twig',[
+            'reservations' => $reservationRepository->findBy(
+            ['idUser'=> $user]
+            ),
+            'date'=> $date
+        ]);
+    }
+
+    /**
      * @Route("/", name="reservation_index", methods={"GET"})
      */
     public function index(ReservationRepository $reservationRepository): Response
@@ -96,4 +114,5 @@ class ReservationController extends AbstractController
 
         return $this->redirectToRoute('reservation_index');
     }
+
 }
