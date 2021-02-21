@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\Reservation;
+use App\Entity\Seance;
+use App\Entity\User;
 use App\Form\FilmType;
+use App\Form\ReservationType;
 use App\Repository\FilmRepository;
 use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/film")
@@ -93,20 +98,6 @@ class FilmController extends AbstractController
         return $this->redirectToRoute('film_index');
     }
 
-    /**
-     * @param Request $request
-     * @param Film $film
-     * @return Response
-     * @Route("/{id}/seances", name="film_seance")
-     */
-    public function reserv(SeanceRepository $seanceRepository, $id): Response
-    {
-     return $this->render('film/seances.html.twig',[
-         'films' => $seanceRepository->findBy(
-            ['idFilm' => $id],
-            ['heure' => 'ASC']
-         )
-    ]);}
 
     /**
      * @param FilmRepository $filmRepository
@@ -116,6 +107,7 @@ class FilmController extends AbstractController
      */
     public function description(FilmRepository $filmRepository, $nom): Response
     {
+
         return $this->render('film/description.html.twig',[
             'descriptions' => $filmRepository->findBy(
                 ['Nom' => $nom]

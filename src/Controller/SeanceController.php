@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Film;
+use App\Entity\Reservation;
 use App\Entity\Seance;
+use App\Entity\User;
+use App\Form\ReservationType;
 use App\Form\SeanceType;
 use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/seance")
@@ -83,7 +88,7 @@ class SeanceController extends AbstractController
      */
     public function delete(Request $request, Seance $seance): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$seance->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $seance->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($seance);
             $entityManager->flush();
@@ -92,13 +97,48 @@ class SeanceController extends AbstractController
         return $this->redirectToRoute('seance_index');
     }
 
+//    /**
+//     * @param SeanceRepository $seanceRepository
+//     * @Route ("/film/{idSeance}/reserv" , name="seance_reserv")
+//     */
+//    public function reserva(SeanceRepository $seanceRepository, $idSeance)
+//    {
+//        $seanceRepository->reservation($idSeance, 4);
+//        return $this->redirectToRoute('accueil');
+//    }
+
     /**
-     * @param SeanceRepository $seanceRepository
-     * @Route ("/film/{idSeance}/reserv" , name="seance_reserv")
+     * @param Request $request
+     * @param Film $film
+     * @return Response
+     * @Route("/{id}/seances", name="film_seance")
      */
-    public function reserv(SeanceRepository $seanceRepository, $idSeance)
+    public function reserv(SeanceRepository $seanceRepository, $id,Security $security, Request $request): Response
     {
-        $seanceRepository->reservation($idSeance, 4);
-        return $this->redirectToRoute('accueil');
+        $user = new User();
+        $user= $security->getUser();
+        $reservation = new Reservation();
+        $form = $this->createForm(ReservationType::class, $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setIdUser($user);
+            $nbr = $reservation->getNbrPlaces();
+            $idseance = $reservation->getIdFilm()->getId();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            $seanceRepository->reservation($idseance, $nbr);
+            return $this->redirectToRoute('accueil');
+        }
+
+        return $this->render('seance/seances.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+            'films' => $seanceRepository->findBy(
+                ['idFilm' => $id],
+                ['heure' => 'ASC']
+            ),
+        ]);
     }
 }
