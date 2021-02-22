@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
+use http\QueryString;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,50 @@ class ReservationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function cancel($idseance, $nbr, $idreservation)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder('r');
+        $query->update()
+        ->from('\App\Entity\Seance', 's')
+        ->set('s.PlacesReserves', 's.PlacesReserves - :nbr')
+        ->where('s.id=:idseance')
+        ->setParameters(new ArrayCollection(array(
+            new Parameter('idseance', $idseance),
+            new Parameter('nbr', $nbr)
+        )))
+        ->getQuery()
+        ->execute();
+        $query2 = $this->getEntityManager()->createQueryBuilder('r2');
+        $query2->update()
+        ->from('\App\Entity\Seance', 's')
+        ->set('s.PlacesRestantes', 's.PlacesRestantes + :nbr')
+        ->where('s.id=:idseance')
+        ->setParameters(new ArrayCollection(array(
+            new Parameter('idseance', $idseance),
+            new Parameter('nbr', $nbr)
+        )))
+        ->getQuery()
+        ->execute();
+        $query3 = $this->getEntityManager()->createQueryBuilder('r3');
+        $query3->update()
+            ->from('\App\Entity\Reservation', 'r')
+            ->set('r.Etat', 2)
+            ->where('r.id=:idreservation')
+            ->setParameter('idreservation', $idreservation)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function valider($idreservation)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder('r3');
+        $query->update()
+            ->from('\App\Entity\Reservation', 'r')
+            ->set('r.Etat', 0)
+            ->where('r.id=:idreservation')
+            ->setParameter('idreservation', $idreservation)
+            ->getQuery()
+            ->execute();
+    }
 }

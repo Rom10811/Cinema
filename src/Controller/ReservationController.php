@@ -17,6 +17,28 @@ use Symfony\Component\Security\Core\Security;
  */
 class ReservationController extends AbstractController
 {
+
+    /**
+     * @Route("/{idreservation}/valider", name="reservation_valider")
+     * @param ReservationRepository $reservationRepository
+     * @param $idreservation
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function valider(ReservationRepository  $reservationRepository, $idreservation)
+    {
+         $reservationRepository->valider($idreservation);
+        return $this->redirectToRoute('reservation_index');
+    }
+
+    /**
+     * @Route("/{idreservation}/{idseance}/{nbr}/cancel", name="reservation_cancel", methods={"GET","POST"})
+     */
+    public function cancel(ReservationRepository $reservationRepository, $idseance, $idreservation, $nbr)
+    {
+        $reservationRepository->cancel($idseance, $nbr, $idreservation);
+        return $this->redirectToRoute('reservation_index');
+    }
+
     /**
      * @Route("/consult")
      * @param ReservationRepository $reservationRepository
@@ -114,5 +136,6 @@ class ReservationController extends AbstractController
 
         return $this->redirectToRoute('reservation_index');
     }
+
 
 }
