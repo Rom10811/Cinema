@@ -11,28 +11,62 @@
 </head>
 <body>
 <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark">
-                <div class="col-md-10">
-                    <a class="navbar-brand" href="{{ path('accueil') }}">Accueil</a>
-                    {% if is_granted('ROLE_MODERATEUR') %}
-                        <a class="navbar-brand" href="{{ path('salle_new') }}">Ajouter une salle</a>
-                        <a class="navbar-brand" href="{{ path('film_new') }}">Ajouter un film</a>
-                        <a class="navbar-brand" href="{{ path('seance_new') }}">Ajouter une seance</a>
-                    {% endif %}
-                    {% if is_granted('ROLE_MEMBRE') %}
-                        <a class="navbar-brand" href="#">Consulter mes réservation</a>
-                    {% endif %}
-                </div>
-                <div class="col-md-2" style="display: inline-block; text-align: right">
-                    {% if not app.user %}
-                        <a class="btn btn-warning" href="{{ path('app_register') }}" style="margin-right: 5px">Inscription</a>
-                        <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a>
-                    {% endif %}
-                    {% if app.user %}
-                        <a class="btn btn-danger" href="{{ path('app_logout') }}">Deconnexion</a>
-                    {% endif %}
-                </div>
-            </nav>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ path('accueil') }}">Accueil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% if is_granted('ROLE_MODERATEUR') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Films</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{ path('film_new') }}">Ajouter un film</a>
+                        <a class="dropdown-item" href="{{ path('film_index') }}">Voir les films</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Salles</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown02">
+                        <a class="dropdown-item" href="{{ path('salle_new') }}">Ajouter une salle</a>
+                        <a class="dropdown-item" href="{{ path('salle_index') }}">Consulter les salle</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Seances</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown03">
+                        <a class="dropdown-item" href="{{ path('seance_new') }}">Ajouter une seance</a>
+                        <a class="dropdown-item" href="{{ path('seance_index') }}">Consulter les seances</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Réservations</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        <a class="dropdown-item" href="{{ path('reservation_index') }}">Voir les réservations</a>
+                    </div>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_MEMBRE') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mes seances</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown05">
+                            <a class="dropdown-item" href="{{ path('reservation_consult') }}">Mes réservations</a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="form-inline my-2 my-md-0">
+                {% if not app.user %}
+                    <a class="btn btn-warning" href="{{ path('app_register') }}" style="margin-right: 5px">Inscription</a>
+                    <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a>
+                {% endif %}
+                {% if app.user %}
+                    <a class="btn btn-danger" href="{{ path('app_logout') }}">Deconnexion</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 </div>
 </body>
 {% block body %}

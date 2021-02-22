@@ -1,0 +1,14 @@
+{% block body %}
+    {% for reservation in reservations %}
+        <p>{{ reservation.NbrPlaces }}</p>
+        <p>{{ reservation.idFilm.heure|date("Y-m-d") }}</p>
+        <p>{{ reservation.idFilm.idFilm.Nom }}</p>
+        <p>{{ reservation.idFilm.idFilm.Description }}</p>
+        <p>{{ reservation.idFilm.idFilm.DateSortie|date("Y-m-d") }}</p>
+        <p>{{ reservation.idUser.Nom }}</p>
+        <p>{{ reservation.idUser.Prenom }}</p>
+        <p>{{ reservation.idUser.age }}</p>
+        <p>{{ reservation.idUser.telephone }}</p>
+        <p>{{ reservation.idUser.pseudo }}</p>
+    {% endfor %}
+{% endblock %}

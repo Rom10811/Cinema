@@ -11,12 +11,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/reservation")
  */
 class ReservationController extends AbstractController
 {
+
+    /**
+     * @Route("/{idreservation}/export", name="reservation_export")
+     */
+    public function export(ReservationRepository $reservationRepository, $idreservation)
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->setDefaultFont('Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create();
+        $dompdf->setHttpContext($context);
+
+        $html = $this->render('reservation/export.html.twig', [
+            'reservations' => $reservationRepository->findBy(
+                ['id' => $idreservation]
+            ),
+        ]);
+        $dompdf->loadHtml($html->getContent());
+        $dompdf->setPaper('A4','portrait');
+        $dompdf->render();
+
+        $fichier = 'billet-'.$this->getUser()->getNom().'-'.$this->getUser()->getPrenom().'-'.'.pdf';
+
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
+
+        return new Response();
+    }
 
     /**
      * @Route("/{idreservation}/valider", name="reservation_valider")
@@ -40,7 +72,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/consult")
+     * @Route("/consult", name="reservation_consult")
      * @param ReservationRepository $reservationRepository
      * @return Response
      */

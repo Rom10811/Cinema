@@ -19,7 +19,7 @@
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Actions sur la reservation</th>
-                <th>Status de la reservation</th>
+                <th>Statut de la reservation</th>
             </tr>
         </thead>
         <tbody>
@@ -39,10 +39,10 @@
                 <td>{{ reservation.idUser.prenom }}</td>
                 <td>
                     {% if reservation.Etat == 0 %}
-                        <a class="btn btn-danger" href="{{ path('reservation_cancel', {'idreservation': reservation.id, 'idseance': reservation.idFilm.id, 'nbr': reservation.NbrPlaces}) }}">Annuler</a>
+                        <a class="btn btn-danger btn-sm" href="{{ path('reservation_cancel', {'idreservation': reservation.id, 'idseance': reservation.idFilm.id, 'nbr': reservation.NbrPlaces}) }}">Annuler</a>
                     {% else %}
-                        <a class="btn btn-danger" href="{{ path('reservation_cancel', {'idreservation': reservation.id, 'idseance': reservation.idFilm.id, 'nbr': reservation.NbrPlaces}) }}">Annuler</a>
-                        <a class="btn btn-success" href="{{ path('reservation_valider',{'idreservation': reservation.id}) }}">Valider</a>
+                        <a class="btn btn-danger btn-sm" href="{{ path('reservation_cancel', {'idreservation': reservation.id, 'idseance': reservation.idFilm.id, 'nbr': reservation.NbrPlaces}) }}">Annuler</a>
+                        <a class="btn btn-success btn-sm" href="{{ path('reservation_valider',{'idreservation': reservation.id}) }}">Valider</a>
                     {% endif%}
                 </td>
                 <td>
