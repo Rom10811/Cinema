@@ -1,14 +1,16 @@
 {% block body %}
     {% for reservation in reservations %}
-        <p>{{ reservation.NbrPlaces }}</p>
-        <p>{{ reservation.idFilm.heure|date("Y-m-d") }}</p>
-        <p>{{ reservation.idFilm.idFilm.Nom }}</p>
-        <p>{{ reservation.idFilm.idFilm.Description }}</p>
-        <p>{{ reservation.idFilm.idFilm.DateSortie|date("Y-m-d") }}</p>
-        <p>{{ reservation.idUser.Nom }}</p>
-        <p>{{ reservation.idUser.Prenom }}</p>
-        <p>{{ reservation.idUser.age }}</p>
-        <p>{{ reservation.idUser.telephone }}</p>
-        <p>{{ reservation.idUser.pseudo }}</p>
+        <img src="/public/images/ticket.png">
+        <img style="width: 400px; height: 400px" src="{{ reservation.idFilm.idFilm.Image }}">
+        <p> Nombre(s) de places réservés : {{ reservation.NbrPlaces }}</p>
+        <p> Date de sortie du film : {{ reservation.idFilm.heure|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")  }}</p>
+        <p> Nom du film : {{ reservation.idFilm.idFilm.Nom }}</p>
+        <p> Description du film : {{ reservation.idFilm.idFilm.Description }}</p>
+        <p> Horaire de la séance : {{ reservation.idFilm.idFilm.DateSortie|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")  }}</p>
+        <p> Nom du client : {{ reservation.idUser.Nom }}</p>
+        <p> Prenom du client : {{ reservation.idUser.Prenom }}</p>
+        <p> Age du client : {{ reservation.idUser.age }}</p>
+        <p> Telephone du client : {{ reservation.idUser.telephone }}</p>
+        <p> Pseudo du client : {{ reservation.idUser.pseudo }}</p>
     {% endfor %}
 {% endblock %}

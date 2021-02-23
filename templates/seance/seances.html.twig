@@ -9,7 +9,7 @@
                     <a style="text-decoration: none; color: black" class="card-title" href="{{ path('film_description',{'nom': film.idFilm.Nom}) }}">
                         {{ film.idFilm.Nom }}
                     </a>
-                    <p>Date de la séance:</p><p> {{ film.heure|date("d-m-Y à h:m:s")}}</p>
+                    <p>Date de la séance:</p><p> {{ film.heure|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")}}</p>
                     <p>Places restantes: {{ film.PlacesRestantes }}</p>
                     <p>Places reservés: {{ film.PlacesReserves }}</p>
                     <form id="{{ film.id }}" name="reservation" method="post">

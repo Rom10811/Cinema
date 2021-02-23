@@ -33,11 +33,11 @@
                     <td>{{ reservation.idFilm.idFilm.Nom }}</td>
                     <td>{{ reservation.NbrPlaces }}</td>
                     <td> {{ reservation.idFilm.idSalle.Numero }}</td>
-                    <td> {{ reservation.idFilm.heure|date('Y-m-d h:i:s') }}</td>
+                    <td> {{ reservation.idFilm.heure|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")  }}</td>
                     <td>{{ reservation.idUser.email }}</td>
                     <td>{{ reservation.idUser.nom }}</td>
                     <td>{{ reservation.idUser.prenom }}</td>
-                    <td>{{ reservation.DateCreation|date('Y-m-d h:i:s') }}</td>
+                    <td>{{ reservation.DateCreation|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")  }}</td>
                     <td>
                         {% if reservation.Etat == 2 %}
 

@@ -29,7 +29,15 @@ class ReservationController extends AbstractController
         $pdfOptions->setDefaultFont('Arial');
         $pdfOptions->setIsRemoteEnabled(true);
         $dompdf = new Dompdf($pdfOptions);
-        $context = stream_context_create();
+        $context = stream_context_create(
+            [
+                'ssl' => [
+                    'verify_peer' => FALSE,
+                    'verify_peer_name' => FALSE,
+                    'allow_self_signed'=> TRUE
+                ]
+            ]
+        );
         $dompdf->setHttpContext($context);
 
         $html = $this->render('reservation/export.html.twig', [
