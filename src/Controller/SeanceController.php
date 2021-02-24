@@ -129,7 +129,7 @@ class SeanceController extends AbstractController
             $entityManager->persist($reservation);
             $entityManager->flush();
             $seanceRepository->reservation($idseance, $nbr);
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('reservation_consult');
         }
 
         return $this->render('seance/seances.html.twig', [

@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello AccueilController!{% endblock %}
+{% block stylesheets %}
 
+{% endblock %}
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #ffffff; padding: 2px 6px; }
 </style>
-<body>
+<body id="body">
 <div class="container-fluid">
    <div class="row">
       <div  class="col-md-12">
@@ -15,17 +17,18 @@
          <h1 style="text-align: center">Bienvenue sur la page d'accueil du site du cinema</h1>
          <div style="display: inline-flex" class="row">
          {% for film in films %}
-            <a href="{{ path('film_seance',{'id': film.id}) }}" style="border-radius:10%;text-decoration:none; color: black; min-width: 400px; min-height: 400px; max-width: 400px; margin-left: 60px; margin-top: 40px; padding:20px; text-align: center" class="card">
+            <div class="card" id="film">
                <div style="max-height: 25px; max-width: 390px" class="card-title">
-                  <h6 class="card-title">{{ film.Nom }}</h6>
+                  <h5 class="card-title">{{ film.Nom }}</h5>
                </div>
-               <div style="max-height: 350px; margin: auto">
+               <a href="{{ path('film_seance',{'id': film.id}) }}" style="max-height: 300px; min-width:300px; margin: auto">
                   <img style="max-height: inherit; max-width: inherit" src="{% if film.image is empty %} https://via.placeholder.com/300 {% else %} {{ film.image }}{% endif %}">
+               </a>
+               <br>
+               <div>
+                  <a href="{{ path('film_description',{'nom': film.Nom}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
                </div>
-               <div style="max-height: 25px" class="text-muted">
-                  {{ film.DateSortie|date('Y-m-d') }}
-               </div>
-            </a>
+            </div>
          {% endfor %}
          </div>
       </div>
