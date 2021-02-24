@@ -98,12 +98,28 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/", name="reservation_index", methods={"GET"})
+     * @Route("/actions", name="reservation_actions")
+     * @param ReservationRepository $reservationRepository
+     * @return Response
      */
-    public function index(ReservationRepository $reservationRepository): Response
+    public function action(ReservationRepository $reservationRepository): Response
+    {
+        return $this->render('reservation/actions.html.twig',[
+            'reservations' => $reservationRepository->findBy(
+                ['Etat' => 1]
+            )
+    ]);
+    }
+
+    /**
+     * @Route("/validées", name="reservation_index", methods={"GET"})
+     */
+    public function valid(ReservationRepository $reservationRepository): Response
     {
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservationRepository->findAll(),
+            'reservations' => $reservationRepository->findBy(
+                ['Etat' => 0]
+            ),
         ]);
     }
 
