@@ -4,6 +4,7 @@
 
 {% block body %}
     {% for film in films %}
+        {% if "now"|date('U') <= film.heure|date('U')  %}
             <div class="card" style="display: inline-flex; min-width: 400px; min-height: 400px; max-width: 400px;  margin-left: 60px; margin-top: 40px; padding:20px; text-align: center">
                 <div class="card-block">
                     <a style="text-decoration: none; color: black" class="card-title" href="{{ path('film_description',{'nom': film.idFilm.Nom}) }}">
@@ -32,5 +33,8 @@
                     </form>
                 </div>
             </div>
+            {% else %}
+
+        {% endif %}
     {% endfor %}
 {% endblock %}
