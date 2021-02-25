@@ -14,14 +14,11 @@ use Symfony\Component\Security\Core\Security;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-/**
- * @Route("/reservation")
- */
 class ReservationController extends AbstractController
 {
 
     /**
-     * @Route("/{idreservation}/export", name="reservation_export")
+     * @Route("/reservation/{idreservation}/export", name="reservation_export")
      */
     public function export(ReservationRepository $reservationRepository, $idreservation)
     {
@@ -59,7 +56,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{idreservation}/valider", name="reservation_valider")
+     * @Route("/moderateur/reservation/{idreservation}/valider", name="reservation_valider")
      * @param ReservationRepository $reservationRepository
      * @param $idreservation
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -98,7 +95,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/actions", name="reservation_actions")
+     * @Route("/moderateur/reservation/actions", name="reservation_actions")
      * @param ReservationRepository $reservationRepository
      * @return Response
      */
@@ -112,7 +109,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/validées", name="reservation_index", methods={"GET"})
+     * @Route("/moderateur/reservation/validées", name="reservation_index", methods={"GET"})
      */
     public function valid(ReservationRepository $reservationRepository): Response
     {
@@ -124,7 +121,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="reservation_new", methods={"GET","POST"})
+     * @Route("/moderateur/reservation/new", name="reservation_new", methods={"GET","POST"})
      */
     public function new(Request $request, Security $security): Response
     {
@@ -150,7 +147,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="reservation_show", methods={"GET"})
+     * @Route("/moderateur/reservation/{id}", name="reservation_show", methods={"GET"})
      */
     public function show(Reservation $reservation): Response
     {
@@ -160,7 +157,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="reservation_edit", methods={"GET","POST"})
+     * @Route("/moderateur/reservation/{id}/edit", name="reservation_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Reservation $reservation): Response
     {
@@ -180,7 +177,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="reservation_delete", methods={"DELETE"})
+     * @Route("/moderateur/reservation/{id}", name="reservation_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Reservation $reservation): Response
     {

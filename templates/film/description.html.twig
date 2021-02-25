@@ -7,7 +7,9 @@
         {{ description.Nom }}
         <p>{{ description.Description }}</p>
         <p>{{ description.DateSortie|date("m/d/Y", "Europe/Paris") }}</p>
-        <img  src="{{ description.image}}">
-        <iframe width="800" height="400" src="{{ description.Video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <img  src="{{ asset('/images/' ~ description.images.nom)}}">
+        <video width="800" height="600" autoplay controls  preload="auto">
+            <source src="{{ asset('/videos/' ~ description.videos.nom) }}" type="video/mp4">
+        </video>
     {% endfor %}
 {% endblock %}

@@ -35,14 +35,16 @@ class Film
     private $DateSortie;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity=Images::class, mappedBy="IdFilm", cascade={"persist", "remove"})
      */
-    private $image;
+    private $images;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity=Videos::class, mappedBy="idFilm", cascade={"persist", "remove"})
      */
-    private $Video;
+    private $videos;
+
+
 
     public function __construct()
     {
@@ -120,27 +122,38 @@ class Film
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImages(): ?Images
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(?string $image): self
+    public function setImages(Images $images): self
     {
-        $this->image = $image;
+        // set the owning side of the relation if necessary
+        if ($images->getIdFilm() !== $this) {
+            $images->setIdFilm($this);
+        }
+
+        $this->images = $images;
 
         return $this;
     }
 
-    public function getVideo(): ?string
+    public function getVideos(): ?Videos
     {
-        return $this->Video;
+        return $this->videos;
     }
 
-    public function setVideo(?string $Video): self
+    public function setVideos(Videos $videos): self
     {
-        $this->Video = $Video;
+        // set the owning side of the relation if necessary
+        if ($videos->getIdFilm() !== $this) {
+            $videos->setIdFilm($this);
+        }
+
+        $this->videos = $videos;
 
         return $this;
     }
+
 }

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalleController extends AbstractController
 {
     /**
-     * @Route("/", name="salle_index", methods={"GET"})
+     * @Route("/moderateur/salle", name="salle_index", methods={"GET"})
      */
     public function index(SalleRepository $salleRepository): Response
     {
@@ -26,7 +26,7 @@ class SalleController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="salle_new", methods={"GET","POST"})
+     * @Route("/moderateur/salle/new", name="salle_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class SalleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="salle_show", methods={"GET"})
+     * @Route("moderateur/salle/{id}", name="salle_show", methods={"GET"})
      */
     public function show(Salle $salle): Response
     {
@@ -59,7 +59,7 @@ class SalleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="salle_edit", methods={"GET","POST"})
+     * @Route("moderateur/salle/{id}/edit", name="salle_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Salle $salle): Response
     {
@@ -79,7 +79,7 @@ class SalleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="salle_delete", methods={"DELETE"})
+     * @Route("/moderateur/salle/{id}", name="salle_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Salle $salle): Response
     {

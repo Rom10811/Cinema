@@ -31,8 +31,20 @@ class FilmType extends AbstractType
                     "class" => "form-control"
                 ]
             ])
-            ->add('image', FileType::class)
-            ->add('Video')
+            ->add('Image', FileType::class,
+            [
+                'required' => true,
+                'multiple' =>false,
+                'mapped' => false,
+                'label'=> false,
+            ])
+            ->add('Video', FileType::class,
+            [
+                'required' => true,
+                'multiple' => false,
+                'mapped' => false,
+                'label' => false
+            ])
         ;
     }
 

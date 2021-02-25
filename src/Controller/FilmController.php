@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\Images;
 use App\Entity\Reservation;
 use App\Entity\Seance;
 use App\Entity\User;
+use App\Entity\Videos;
 use App\Form\FilmType;
 use App\Form\ReservationType;
 use App\Repository\FilmRepository;
@@ -16,13 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
-/**
- * @Route("/film")
- */
 class FilmController extends AbstractController
 {
     /**
-     * @Route("/", name="film_index", methods={"GET"})
+     * @Route("/moderateur/film", name="film_index", methods={"GET"})
      */
     public function index(FilmRepository $filmRepository): Response
     {
@@ -32,7 +31,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="film_new", methods={"GET","POST"})
+     * @Route("/moderateur/film/new", name="film_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -41,6 +40,25 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('Image')->getData();
+            $fichier = md5(uniqid()).'.'.$image->guessExtension();
+            $image->move(
+              $this->getParameter('images_directory'),
+              $fichier
+            );
+            $img = new Images();
+            $img->setNom($fichier);
+            $film->setImages($img);
+
+            $video = $form->get('Video')->getData();
+            $fichvideo = md5(uniqid()).'.'.$video->guessExtension();
+            $video->move(
+                $this->getParameter('video_directory'),
+                $fichvideo
+            );
+            $vid = new Videos();
+            $vid->setNom($fichvideo);
+            $film->setVideos($vid);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($film);
             $entityManager->flush();
@@ -55,7 +73,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="film_show", methods={"GET"})
+     * @Route("/moderateur/film/{id}", name="film_show", methods={"GET"})
      */
     public function show(Film $film): Response
     {
@@ -65,7 +83,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="film_edit", methods={"GET","POST"})
+     * @Route("/moderateur/film/{id}/edit", name="film_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Film $film): Response
     {
@@ -73,6 +91,25 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('Image')->getData();
+            $fichier = md5(uniqid()).'.'.$image->guessExtension();
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            $img = new Images();
+            $img->setNom($fichier);
+            $film->setImages($img);
+
+            $video = $form->get('Video')->getData();
+            $fichvideo = md5(uniqid()).'.'.$video->guessExtension();
+            $video->move(
+                $this->getParameter('video_directory'),
+                $fichvideo
+            );
+            $vid = new Videos();
+            $vid->setNom($fichvideo);
+            $film->setVideos($vid);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('film_index');
@@ -85,7 +122,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="film_delete", methods={"DELETE"})
+     * @Route("/moderateur/film/{id}", name="film_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Film $film): Response
     {
