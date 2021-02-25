@@ -35,18 +35,15 @@ class Film
     private $DateSortie;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="film", orphanRemoval=true, cascade={"persist"})
      */
-    private $image;
+    private $images;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Video;
 
     public function __construct()
     {
         $this->seances = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,26 +117,32 @@ class Film
         return $this;
     }
 
-    public function getImage(): ?string
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(?string $image): self
+    public function addImage(Images $image): self
     {
-        $this->image = $image;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setFilm($this);
+        }
 
         return $this;
     }
 
-    public function getVideo(): ?string
+    public function removeImage(Images $image): self
     {
-        return $this->Video;
-    }
-
-    public function setVideo(?string $Video): self
-    {
-        $this->Video = $Video;
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getFilm() === $this) {
+                $image->setFilm(null);
+            }
+        }
 
         return $this;
     }

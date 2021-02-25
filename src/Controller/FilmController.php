@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\Images;
 use App\Entity\Reservation;
 use App\Entity\Seance;
 use App\Entity\User;
@@ -11,6 +12,7 @@ use App\Form\ReservationType;
 use App\Repository\FilmRepository;
 use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +43,15 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('Image')->getData();
+            $fichier = md5(uniqid()). '.' .$image->guessExtension();
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            $img = new Images();
+            $img->setNom($fichier);
+            $film->addImage($img);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($film);
             $entityManager->flush();
@@ -73,6 +84,15 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('Image')->getData();
+            $fichier = md5(uniqid()). '.' .$image->guessExtension();
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            $img = new Images();
+            $img->setNom($fichier);
+            $film->addImage($img);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('film_index');
@@ -113,5 +133,27 @@ class FilmController extends AbstractController
                 ['Nom' => $nom]
             )
         ]);
+    }
+
+    /**
+         * @Route("/supprime/image/{id}", name="delete_image", methods={"DELETE"})
+     */
+    public function deleteimage(Images $images, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if($this->isCsrfTokenValid('delete'.$images->getId(), $data['_token']))
+        {
+            $nom = $images->getNom();
+            unlink($this->getParameter('images_directory').'/'.$nom);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($images);
+            $em->flush();
+
+            return new JsonResponse(['success'=>1]);
+        }
+        else
+        {
+            return new JsonResponse(['error' => 'Token invalide'],400);
+        }
     }
 }
