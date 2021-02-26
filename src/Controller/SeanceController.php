@@ -110,6 +110,10 @@ class SeanceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($user == null)
+            {
+                return $this->redirectToRoute('app_login');
+            }
             $reservation->setIdUser($user);
             $nbr = $reservation->getNbrPlaces();
             $idseance = $reservation->getIdFilm()->getId();

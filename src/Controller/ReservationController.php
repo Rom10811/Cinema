@@ -6,6 +6,7 @@ use App\Entity\Reservation;
 use App\Entity\User;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
+use PhpParser\Node\Expr\Empty_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +91,7 @@ class ReservationController extends AbstractController
             'reservations' => $reservationRepository->findBy(
             ['idUser'=> $user]
             ),
-            'date'=> $date
+            'date'=> $date,
         ]);
     }
 
@@ -130,13 +131,11 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $reservation->setIdUser($utilisateur);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->flush();
-
             return $this->redirectToRoute('reservation_index');
         }
 
