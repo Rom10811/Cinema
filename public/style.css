@@ -69,3 +69,27 @@ h1{
         top: 0px;
     }
 }
+
+
+.ajout_avis{
+    display: none;
+    overflow: hidden;
+    opacity: 0%;
+}
+.ajout_avis.is-visible{
+    display: block;
+    opacity: 100%;
+    animation: display 1.5s;
+}
+
+@keyframes display {
+    0%{
+        opacity: 0%;
+    }
+    50%{
+        opacity: 50%;
+    }
+    100%{
+        opacity: 100%;
+    }
+}

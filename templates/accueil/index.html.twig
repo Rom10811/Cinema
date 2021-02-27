@@ -26,7 +26,7 @@
                </a>
                <br>
                <div>
-                  <a href="{{ path('film_description',{'nom': film.Nom}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
+                  <a href="{{ path('film_description',{'nom': film.Nom, 'id': film.id}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
                </div>
             </div>
          {% endfor %}

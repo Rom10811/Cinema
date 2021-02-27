@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Videos;
 use App\Form\FilmType;
 use App\Form\ReservationType;
+use App\Repository\AvisRepository;
 use App\Repository\FilmRepository;
 use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -140,15 +141,19 @@ class FilmController extends AbstractController
      * @param FilmRepository $filmRepository
      * @param $nom
      * @return Response
-     * @Route("/{nom}/description", name="film_description")
+     * @Route("/{id}/{nom}/description", name="film_description")
      */
-    public function description(FilmRepository $filmRepository, $nom): Response
+    public function description(FilmRepository $filmRepository,AvisRepository $avisRepository, $nom, $id): Response
     {
-
+        $note =$avisRepository->moyenne($id);
         return $this->render('film/description.html.twig',[
             'descriptions' => $filmRepository->findBy(
                 ['Nom' => $nom]
-            )
+            ),
+            'avis' => $avisRepository->findBy(
+                ['idFilm' => $id]
+            ),
+            'note' => $note
         ]);
     }
 }

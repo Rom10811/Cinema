@@ -44,11 +44,17 @@ class Film
      */
     private $videos;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="idFilm", orphanRemoval=true)
+     */
+    private $avis;
+
 
 
     public function __construct()
     {
         $this->seances = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,6 +158,36 @@ class Film
         }
 
         $this->videos = $videos;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setIdFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getIdFilm() === $this) {
+                $avi->setIdFilm(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -62,8 +64,15 @@ class User implements UserInterface
      */
     private $pseudo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="idUser", orphanRemoval=true)
+     */
+    private $avis;
+
+
     public function __construct(){
         $this->roles = ['ROLE_MEMBRE'];
+        $this->avis = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -202,4 +211,35 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getIdUser() === $this) {
+                $avi->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
