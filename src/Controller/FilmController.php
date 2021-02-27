@@ -13,6 +13,7 @@ use App\Form\ReservationType;
 use App\Repository\AvisRepository;
 use App\Repository\FilmRepository;
 use App\Repository\SeanceRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -143,16 +144,22 @@ class FilmController extends AbstractController
      * @return Response
      * @Route("/{id}/{nom}/description", name="film_description")
      */
-    public function description(FilmRepository $filmRepository,AvisRepository $avisRepository, $nom, $id): Response
+    public function description(PaginatorInterface $paginator,FilmRepository $filmRepository,AvisRepository $avisRepository, $nom, $id, Request $request): Response
     {
+        $allavis = $avisRepository->findBy(
+            ['idFilm' => $id]
+        );
+        $avis = $paginator->paginate(
+            $allavis,
+            $request->query->getInt('page', 1), 6
+        );
+
         $note =$avisRepository->moyenne($id);
         return $this->render('film/description.html.twig',[
             'descriptions' => $filmRepository->findBy(
                 ['Nom' => $nom]
             ),
-            'avis' => $avisRepository->findBy(
-                ['idFilm' => $id]
-            ),
+            'avis' => $avis,
             'note' => $note
         ]);
     }

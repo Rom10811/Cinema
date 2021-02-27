@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Film;
 use App\Entity\User;
 use App\Repository\AvisRepository;
 use App\Repository\FilmRepository;
+use mysql_xdevapi\CrudOperationBindable;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +22,18 @@ class AccueilController extends AbstractController
      */
     public function index(FilmRepository $filmRepository, AvisRepository $avisRepository, Security $security): Response
     {
-//        $avis = $avisRepository->moyenne(1);
+        $tous = $filmRepository->findAll();
+        $max = count($tous);
+        foreach ($tous as $id)
+        {
+            $idFilm[] = $id->getId();
+        }
+        for ($i=0;$i<$max;$i++) {
+            $moyenne[$idFilm[$i]] = $avisRepository->moyenne($idFilm[$i]);
+        }
         return $this->render('accueil/index.html.twig', [
             'films' => $filmRepository->findAll(),
+            'avis' => $moyenne,
         ]);
     }
 }

@@ -21,6 +21,42 @@ use Symfony\Component\Security\Core\Security;
 class AvisController extends AbstractController
 {
     /**
+     * @Route("/{id}/cancel", name="avis_remove")
+     * @param $id
+     * @param AvisRepository $avisRepository
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function supprimer($id, AvisRepository $avisRepository)
+    {
+        $avis = $avisRepository->findOneBy(
+            [
+                'id' => $id
+            ]
+        );
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($avis);
+        $em->flush();
+        return $this->redirectToRoute('accueil');
+    }
+    /**
+     * @Route("/{id}/confirm", name="avis_confirm")
+     * @param $idavis
+     * @param AvisRepository $avisRepository
+     */
+    public function confirmer($id, AvisRepository $avisRepository)
+    {
+        $avis = $avisRepository->findOneBy([
+            'id' => $id
+            ]
+        );
+
+        $avis->setVisible(1);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($avis);
+        $em->flush();
+        return $this->redirectToRoute('accueil');
+    }
+    /**
      * @Route("/", name="avis_index", methods={"GET"})
      */
     public function index(AvisRepository $avisRepository): Response

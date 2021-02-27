@@ -25,11 +25,13 @@ class AvisRepository extends ServiceEntityRepository
             ->select("avg(a.Note)")
             ->from('\App\Entity\Avis', 'a')
             ->where('a.idFilm=:idFilm')
+            ->andWhere('a.visible=1')
             ->setParameter('idFilm', $idFilm);
             $resultat = $query->getQuery()->getScalarResult();
         return $resultat;
 
     }
+
     // /**
     //  * @return Avis[] Returns an array of Avis objects
     //  */

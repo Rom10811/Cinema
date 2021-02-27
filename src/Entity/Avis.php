@@ -45,6 +45,11 @@ class Avis
      */
     private $idUser;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,5 +113,22 @@ class Avis
         $this->Note = $Note;
 
         return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    public function __construct()
+    {
+        $this->setVisible(0);
     }
 }
