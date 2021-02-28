@@ -28,8 +28,15 @@ class AccueilController extends AbstractController
         {
             $idFilm[] = $id->getId();
         }
-        for ($i=0;$i<$max;$i++) {
-            $moyenne[$idFilm[$i]] = $avisRepository->moyenne($idFilm[$i]);
+        if($max>0)
+        {
+            for ($i=0;$i<$max;$i++) {
+                $moyenne[$idFilm[$i]] = $avisRepository->moyenne($idFilm[$i]);
+            }
+        }
+        else
+        {
+            $moyenne[]=null;
         }
         return $this->render('accueil/index.html.twig', [
             'films' => $filmRepository->findAll(),
