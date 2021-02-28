@@ -45,6 +45,8 @@ class FilmType extends AbstractType
                 'mapped' => false,
                 'label' => false
             ])
+            ->add('DateMinDiffusion')
+            ->add('DateMaxDiffusion')
         ;
     }
 

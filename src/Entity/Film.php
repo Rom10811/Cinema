@@ -49,6 +49,16 @@ class Film
      */
     private $avis;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $DateMinDiffusion;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $DateMaxDiffusion;
+
 
 
     public function __construct()
@@ -188,6 +198,30 @@ class Film
                 $avi->setIdFilm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateMinDiffusion(): ?\DateTimeInterface
+    {
+        return $this->DateMinDiffusion;
+    }
+
+    public function setDateMinDiffusion(\DateTimeInterface $DateMinDiffusion): self
+    {
+        $this->DateMinDiffusion = $DateMinDiffusion;
+
+        return $this;
+    }
+
+    public function getDateMaxDiffusion(): ?\DateTimeInterface
+    {
+        return $this->DateMaxDiffusion;
+    }
+
+    public function setDateMaxDiffusion(\DateTimeInterface $DateMaxDiffusion): self
+    {
+        $this->DateMaxDiffusion = $DateMaxDiffusion;
 
         return $this;
     }

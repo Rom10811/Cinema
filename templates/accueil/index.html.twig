@@ -17,6 +17,7 @@
          <h1 style="text-align: center">Bienvenue sur la page d'accueil du site du cinema</h1>
          <div class="row">
          {% for film in films %}
+            {% if film.datemindiffusion|date('U') <= "now"|date('U') and film.datemaxdiffusion|date('U') >= "now"|date('U') %}
             {% set id = film.id %}
             <div class="card" id="filmbox">
                <div style="max-height: 25px; max-width: 390px" class="card-title">
@@ -35,6 +36,8 @@
                   <a href="{{ path('film_description',{'nom': film.Nom, 'id': film.id}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
                </div>
             </div>
+            {% else%}
+            {% endif %}
          {% endfor %}
 
 {#            <div class="col-md-12">#}
