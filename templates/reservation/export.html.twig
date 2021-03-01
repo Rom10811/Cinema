@@ -1,6 +1,6 @@
 {% block body %}
     {% for reservation in reservations %}
-        <img src="{{ asset('/images/ticket.png') }}">
+{#        <img src="{{ asset('/images/ticket.png') }}">#}
 {#        <img style="width: 400px; height: 400px" src="{{ reservation.idFilm.idFilm.Image }}">#}
         <p> Nombre(s) de places réservés : {{ reservation.NbrPlaces }}</p>
         <p> Date de sortie du film : {{ reservation.idFilm.heure|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm:ss")  }}</p>

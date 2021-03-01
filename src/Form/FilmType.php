@@ -36,17 +36,29 @@ class FilmType extends AbstractType
                 'required' => true,
                 'multiple' =>false,
                 'mapped' => false,
-                'label'=> false,
+                'label'=> 'Ajout une affiche'
             ])
             ->add('Video', FileType::class,
             [
                 'required' => true,
                 'multiple' => false,
                 'mapped' => false,
-                'label' => false
+                'label' => 'Ajouter une bande annonce'
             ])
-            ->add('DateMinDiffusion')
-            ->add('DateMaxDiffusion')
+            ->add('DateMinDiffusion',DateType::class,
+            [
+                "attr" =>[
+                    "class"=>"form-control"
+                ],
+                'label' => 'Date minimum de diffusion'
+            ])
+            ->add('DateMaxDiffusion', DateType::class,
+            [
+                "attr" => [
+                    "class" => "form-control"
+                ],
+                'label' => 'Date maximale de diffusion'
+            ])
         ;
     }
 
