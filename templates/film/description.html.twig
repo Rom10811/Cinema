@@ -66,14 +66,15 @@
                 </form>
                 <button onclick="fermer()" type="button" class="btn btn-danger" id="Fermer">Fermer</button>
             </div>
-            {% if is_granted('ROLE_MEMBRE') or is_granted('ROLE_MODERATEUR')%}
-                <a onclick="myFunction()" class="btn btn-primary">Laisser un avis sur {{ description.Nom }}</a>
+            {% if description.datemindiffusion|date('U') < "now"|date('U') and description.datemaxdiffusion|date('U') > "now"|date('U')%}
+                {% if is_granted('ROLE_MEMBRE') or is_granted('ROLE_MODERATEUR')%}
+                    <a onclick="myFunction()" class="btn btn-primary">Laisser un avis sur {{ description.Nom }}</a>
+                {% endif %}
             {% endif %}
             <br>
             <br>
             <br>
         </div>
-
     {% endfor %}
     <script>
         function myFunction() {

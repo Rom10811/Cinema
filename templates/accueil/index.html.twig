@@ -16,9 +16,11 @@
          <br>
          <h1 style="text-align: center">Bienvenue sur la page d'accueil du site du cinema</h1>
          <div class="row">
+         {% set id = 0 %}
          {% for film in films %}
             {% if film.datemindiffusion|date('U') <= "now"|date('U') and film.datemaxdiffusion|date('U') >= "now"|date('U') %}
             {% set id = film.id %}
+            <div class="Actuellement">
             <div class="card" id="filmbox">
                <div style="max-height: 25px; max-width: 390px" class="card-title">
                   <h5 class="card-title">{{ film.Nom }}</h5>
@@ -36,43 +38,36 @@
                   <a href="{{ path('film_description',{'nom': film.Nom, 'id': film.id}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
                </div>
             </div>
-            {% else%}
+            </div>
             {% endif %}
          {% endfor %}
+         </div>
+         <br>
+         {% if id < films|length %}
+         <h1 style="text-align: center">Film à venir</h1>
+         <div class="row">
+            {% for film in films %}
+            {% if film.datemindiffusion|date('U') > "now"|date('U') and film.datemaxdiffusion|date('U') > "now"|date('U')%}
+               <div class="Venir">
+               <div class="card" id="filmbox">
+                  <div style="max-height: 25px; max-width: 390px" class="card-title">
+                     <h5 class="card-title">{{ film.Nom }}</h5>
+                  </div>
+                  <a style="max-height: 300px; min-width:300px; margin: auto">
+                     <img style="max-height: inherit; max-width: inherit" src="{{ asset('/images/' ~ film.images.nom) }}">
+                  </a>
+                  <br>
+                  <div>
+                     <p>A venir</p>
+                     <a href="{{ path('film_description',{'nom': film.Nom, 'id': film.id}) }}" class="btn btn-warning" style="max-width:50%">Description</a>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+         {% endif %}
 
-{#            <div class="col-md-12">#}
-{#               <div class="carousel slide" id="carousel-339703">#}
-{#                  <ol class="carousel-indicators">#}
-{#                     <li data-slide-to="0" data-target="#carousel-339703" class="active">#}
-{#                     </li>#}
-{#                     {% for film in films %}#}
-{#                     <li data-slide-to="{{ film.id }}" data-target="#carousel-339703">#}
-{#                     </li>#}
-{#                     {% endfor %}#}
-{#                  </ol>#}
-{#                  <div class="carousel-inner">#}
-{#                     <div class="carousel-item active">#}
-{#                        <img style="height: 800px;" class="d-block w-100" alt="Carousel Bootstrap First" src="https://www.layoutit.com/img/sports-q-c-1600-500-1.jpg" />#}
-{#                        <div class="carousel-caption">#}
-{#                           <h5>Bienvenue sur la page d'accueil du cinema</h5>#}
-{#                        </div>#}
-{#                     </div>#}
-{#                     {% for film in films %}#}
-{#                     <div class="carousel-item w-100">#}
-{#                        <img style="max-height: 800px" class="d-block w-100" alt="Carousel Bootstrap Second" src="{{ asset('/images/' ~ film.images.nom) }}" />#}
-{#                        <div class="carousel-caption">#}
-{#                           <h4>#}
-{#                              {{film.Nom }}#}
-{#                           </h4>#}
-{#                        </div>#}
-{#                     </div>#}
-{#                     {% endfor %}#}
-{#                  </div> <a class="carousel-control-prev" href="#carousel-339703" data-slide="prev"><span class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" href="#carousel-339703" data-slide="next"><span class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>#}
-{#               </div>#}
-{#            </div>#}
-{#         </div>#}
-{#         </div>#}
-      </div>
+         </div>
    </div>
    </div>
 </div>
