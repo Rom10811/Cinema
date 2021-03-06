@@ -74,7 +74,7 @@ class ReservationController extends AbstractController
     public function cancel(ReservationRepository $reservationRepository, $idseance, $idreservation, $nbr)
     {
         $reservationRepository->cancel($idseance, $nbr, $idreservation);
-        return $this->redirectToRoute('reservation_index');
+        return $this->redirectToRoute('accueil');
     }
 
     /**
