@@ -20,8 +20,6 @@ class SeanceType extends AbstractType
             ->add('heure',DateTimeType::class, array(
                 'input' => 'datetime_immutable'
             ))
-            ->add('PlacesRestantes', IntegerType::class)
-            ->add('PlacesReserves', IntegerType::class)
             ->add('idFilm', EntityType::class,[
                 'class' => Film::class,
                 'choice_label' => 'nom'
@@ -40,3 +38,5 @@ class SeanceType extends AbstractType
         ]);
     }
 }
+?>
+

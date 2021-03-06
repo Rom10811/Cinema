@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Film;
 use App\Entity\Reservation;
+use App\Entity\Salle;
 use App\Entity\Seance;
 use App\Entity\User;
 use App\Form\ReservationType;
 use App\Form\SeanceType;
+use App\Repository\SalleRepository;
 use App\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,13 +32,14 @@ class SeanceController extends AbstractController
     /**
      * @Route("/moderateur/seance/new", name="seance_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SalleRepository $salleRepository): Response
     {
         $seance = new Seance();
         $form = $this->createForm(SeanceType::class, $seance);
         $form->handleRequest($request);
-
+        $salle = $seance->getIdSalle();
         if ($form->isSubmitted() && $form->isValid()) {
+            $seance->setPlacesRestantes($salle->getTotalPlaces());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($seance);
             $entityManager->flush();

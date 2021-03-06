@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\SalleRepository;
 use App\Repository\SeanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -111,5 +112,10 @@ class Seance
         $this->PlacesReserves = $PlacesReserves;
 
         return $this;
+    }
+
+    public function __construct(){
+        $this->PlacesReserves=0;
+        $this->PlacesRestantes=40;
     }
 }
