@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.css">
-    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link id="pagestyle" rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
-<body>
+<body onload=console.log(document.getElementById("pagestyle"))>
 <div>
     <nav id="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" href="{{ path('accueil') }}">Accueil</a>
@@ -56,13 +56,19 @@
                 {% endif %}
             </ul>
             <div class="form-inline my-2 my-md-0">
-                {% if not app.user %}
-                    <a class="btn btn-warning" href="{{ path('app_register') }}" style="margin-right: 5px">Inscription</a>
-                    <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a>
-                {% endif %}
-                {% if app.user %}
-                    <a class="btn btn-danger" href="{{ path('app_logout') }}">Deconnexion</a>
-                {% endif %}
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                    <label class="custom-control-label" for="customSwitch1">🌗</label>
+                </div>
+                <div>
+                    {% if not app.user %}
+                        <a class="btn btn-warning" href="{{ path('app_register') }}" style="margin-right: 5px">Inscription</a>
+                        <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a>
+                    {% endif %}
+                    {% if app.user %}
+                        <a class="btn btn-danger" href="{{ path('app_logout') }}">Deconnexion</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
@@ -80,6 +86,51 @@
                 tags: true,
             });
         });
+    </script>
+    <script>
+        function save(){
+            var checkbox = document.getElementById('customSwitch1');
+            localStorage.setItem('customSwitch1', checkbox.checked);
+        }
+    </script>
+    <script>
+        function load(){
+            var checked = JSON.parse(localStorage.getItem('customSwitch1'));
+            document.getElementById("customSwitch1").checked=checked;
+            console.log(checked);
+            if(checked ==true )
+            {
+                document.getElementById('pagestyle').setAttribute('href', "{{ asset('style.css') }}");
+            }
+            else
+            {
+                document.getElementById('pagestyle').setAttribute('href', "{{ asset('style2.css') }}");
+            }
+        }
+    </script>
+    <script>
+        var test;
+        ($('#customSwitch1').change(function ()
+        {
+            if($('#customSwitch1').is(":checked"))
+            {
+                test = 1;
+                document.getElementById('pagestyle').setAttribute('href', "{{ asset('style.css') }}");
+                save();
+                console.log(document.getElementById("pagestyle"))
+                console.log(test)
+
+            }
+            else
+            {
+                test = 0;
+                document.getElementById('pagestyle').setAttribute('href', "{{ asset('style2.css') }}");
+                save();
+                console.log(document.getElementById("pagestyle"))
+                console.log(test)
+            }
+        }));
+        load();
     </script>
 {% endblock %}
 </html>
