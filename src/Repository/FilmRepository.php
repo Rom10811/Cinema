@@ -19,6 +19,15 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function type($type){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT tags.nom as tag, film.id, film.nom, description, images.nom as nom_image FROM tags, film, film_tags, images WHERE film_tags.tags_id = tags.id AND film.id = film_tags.film_id AND film.id = images.id_film_id AND film_tags.tags_id='$type'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

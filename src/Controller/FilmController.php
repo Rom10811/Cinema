@@ -33,6 +33,16 @@ class FilmController extends AbstractController
     }
 
     /**
+     * @Route("/film/type/{tags}", name="film_type")
+     */
+    public function type(FilmRepository $filmRepository, $tags){
+        $films = $filmRepository->type($tags);
+        return $this->render('film/type.html.twig', [
+            'films' => $films
+        ]);
+    }
+
+    /**
      * @Route("/moderateur/film/new", name="film_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response

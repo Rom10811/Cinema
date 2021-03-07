@@ -59,12 +59,20 @@ class Film
      */
     private $DateMaxDiffusion;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="films")
+     */
+    private $Tags;
+
+
 
 
     public function __construct()
     {
         $this->seances = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->Tag = new ArrayCollection();
+        $this->Tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,5 +233,35 @@ class Film
 
         return $this;
     }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->Tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->Tags->contains($tag)) {
+            $this->Tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        $this->Tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->Nom;
+    }
+
 
 }

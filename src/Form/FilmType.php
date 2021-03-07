@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Film;
+use App\Entity\Tags;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -58,6 +60,13 @@ class FilmType extends AbstractType
                     "class" => "form-control"
                 ],
                 'label' => 'Date maximale de diffusion'
+            ])
+            ->add('Tags', EntityType::class,[
+                'multiple' => true,
+                "class" => Tags::class,
+                "attr" => [
+                    "class" => "select-tags form-control"
+                ]
             ])
         ;
     }

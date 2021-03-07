@@ -96,4 +96,6 @@ h1{
 
 .pagination{justify-content: center;}
 
-
+#tags{
+    text-decoration:none;
+}
